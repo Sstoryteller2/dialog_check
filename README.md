@@ -1,5 +1,5 @@
 # dialog_check
-script for search NER in dialogs (russion). Spacy
+script for searching NER in dialogs (russion). Spacy
 Скрипт для парсинга диалогов
 
 ## Запуск:
