@@ -17,6 +17,20 @@ arr=np.hstack((arr,insight))
 a_f_cols=np.zeros((arr.shape[0],6))
 arr=np.hstack((arr,a_f_cols))
 
+array_head={
+    0:"dlg_id",
+    1:"line_n",
+    2:"role",
+    3:"text",
+    4:"insight",
+    5:"a",
+    6:"b",
+    7:"c",
+    8:"d",
+    9:"e",
+    10:"f"
+}
+
 #получаем индексы фраз менеджера 
 manager_phrases_index=list()
 for item in dlg_ids:    
@@ -89,6 +103,11 @@ for c, item in enumerate(dlg_ids):
     ins_index=np.where(arr[:,0]==item)[0][0] # индекс первой фразы диалога
     arr[:,4][ins_index]=insight_txt
 
-np.savetxt('res_data.csv', arr, delimiter=';',fmt='%s',  header="dlg_id; line_n; role; text; insight; a; b; c; d; e; f")
+head=''
+for item in array_head.values():
+    head+=(item+"; ")
+head=head.rstrip("; ")
+
+np.savetxt('res_data.csv', arr, delimiter=';',fmt='%s',  header=head)
 
 print("результат сохранен в файл res_data.csv")
