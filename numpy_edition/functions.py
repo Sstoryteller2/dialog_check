@@ -5,8 +5,7 @@ import spacy
 
 nlp = spacy.load("ru_core_news_lg")
 # Позроверка поздаровался ли
-def is_greet_in_phrase(text):
-    doc = nlp(text)
+def is_greet_in_phrase(doc):
     greet_list = synonyms.greet_list
     for token in doc:
         if token.lemma_ in greet_list and (
