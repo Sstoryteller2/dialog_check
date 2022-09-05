@@ -75,3 +75,71 @@ def chek_phrase(phrases, phrase_index, function):
             index=phrase_index[n]          
             return(index, function(doc))
     return False
+
+def get_result(arr, dlg_ids, dlg_len, manager_phrases_index):
+    # проходимся по всем диалогам
+    for c, item in enumerate(dlg_ids):            
+        #dlg_len = 3 #сколько фраз проверять
+
+        phrases, phrase_index = get_phrases(arr, dlg_len, c, manager_phrases_index)  
+
+        greet = (chek_phrase(phrases, phrase_index, is_greet_in_phrase))
+        intro = (chek_phrase(phrases, phrase_index, is_introduce_in_phrase))
+        company = (chek_phrase(phrases, phrase_index, get_company_name))
+        dlg_len = (dlg_len*-1) #сберем три последние
+
+        phrases, phrase_index = get_phrases(arr, dlg_len, c, manager_phrases_index) 
+        bye = (chek_phrase(phrases, phrase_index, is_bye))  
+
+        insight_txt=""
+        intro_n_comp=""
+
+        if greet:
+            arr[:,4][greet[0]]="greeting=True"
+            arr[:,5][greet[0]]="greeting=True"
+            insight_txt+="greeting=True, "         
+        if not greet:
+            ins_index=manager_phrases_index[c][0] #первая фраза менеджера
+            arr[:,4][ins_index]="greeting=False"
+            arr[:,5][ins_index]="greeting=False"
+            insight_txt+="greeting=False, "
+
+        if intro:      
+            arr[:,4][intro[0]]="introduction=True" 
+            arr[:,6][intro[0]]="introduction=True" 
+            intro_n_comp+="introduction=True, "
+            insight_txt+="introduction=True, "
+            arr[:,7][intro[0]]=intro[1][1]        
+        if not intro:           
+            intro_n_comp+="introduction=False, "
+            insight_txt+="introduction=False, " 
+            arr[:,6][ins_index]="introduction=False" 
+
+        if company:        
+            intro_n_comp+="company=True"
+            insight_txt+="company=True, "           
+            arr[:,4][company[0]]=intro_n_comp
+            arr[:,8][company[0]]=company[1][1]
+        if not company:
+            insight_txt+="company=False, "
+            intro_n_comp+="company=False"
+
+        if bye:
+            arr[:,4][bye[0]]="bying=True"  
+            arr[:,9][bye[0]]="bying=True"
+            insight_txt+="bying=True"              
+        if not bye:
+            insight_txt+="bying=False"
+            ins_index=np.where(arr[:,0]==item)[0][-1]
+            arr[:,4][ins_index]="bying=False" #последняя фраза
+            arr[:,9][ins_index]="bying=False"
+
+        if greet and bye:
+            arr[:,10][greet[0]]="greet-bye=True"         
+        else:
+            arr[:,10][manager_phrases_index[c][0]]="greet-bye=False"    
+
+        ins_index=np.where(arr[:,0]==item)[0][0] # индекс первой фразы диалога
+        arr[:,4][ins_index]=insight_txt
+    return arr
+
