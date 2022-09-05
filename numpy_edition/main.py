@@ -41,8 +41,10 @@ def main():
 
     dlg_len = 3  # сколько фраз проверять
 
+    # кидаем массив в машинку, получаем результаты
     arr = functions.get_result(arr, dlg_ids, dlg_len, manager_phrases_index)
 
+    # заголовки для итоговой таблицы
     head = ""
     for item in array_head.values():
         head += item + "; "
