@@ -49,7 +49,5 @@ if __name__ == "__main__":
     head=head.rstrip("; ")
 
     np.savetxt('res_data.csv', arr, delimiter=';',fmt='%s',  header=head)
-    end = time.time()
-    duration = end - start
-
-    print("результат сохранен в файл res_data.csv", duration)
+    
+    print("результат сохранен в файл res_data.csv")
