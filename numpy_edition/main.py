@@ -4,8 +4,7 @@
 import numpy as np
 import functions
 
-if __name__ == "__main__":    
-    
+def main():
     arr = np.loadtxt("test_data.csv", delimiter=",", dtype=str, skiprows=1)
 
     #получаем айди диалогов
@@ -51,3 +50,8 @@ if __name__ == "__main__":
     np.savetxt('res_data.csv', arr, delimiter=';',fmt='%s',  header=head)
     
     print("результат сохранен в файл res_data.csv")
+
+
+if __name__ == "__main__":
+    main()
+    
